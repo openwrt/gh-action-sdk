@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -ef
 
@@ -41,6 +41,19 @@ else
 			BUILD_LOG="$BUILD_LOG" \
 			IGNORE_ERRORS="$IGNORE_ERRORS" \
 			"package/$PKG/check" V=s 2>&1
+	done
+
+	make \
+		-f .config \
+		-f tmp/.packagedeps \
+		-f <(echo "\$(info \$(sort \$(package-y) \$(package-m)))"; echo -en "a:\n\t@:") \
+			| tr ' ' '\n' > enabled-package-subdirs.txt
+
+	for PKG in $PACKAGES; do
+		if ! grep -m1 -qE "(^|/)$PKG$" enabled-package-subdirs.txt; then
+			echo "::warning file=$PKG::Skipping $PKG due to unsupported architecture"
+			continue
+		fi
 
 		make \
 			BUILD_LOG="$BUILD_LOG" \
@@ -55,7 +68,9 @@ else
 	done
 fi
 
-mv bin/ "$GITHUB_WORKSPACE/"
+if [ -d bin/ ]; then
+	mv bin/ "$GITHUB_WORKSPACE/"
+fi
 
 if [ -d logs/ ]; then
 	mv logs/ "$GITHUB_WORKSPACE/"
