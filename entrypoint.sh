@@ -35,12 +35,29 @@ else
 		make \
 			BUILD_LOG="$BUILD_LOG" \
 			IGNORE_ERRORS="$IGNORE_ERRORS" \
-			"package/$PKG/download" V=s
+			"package/$PKG/download" V=s || \
+				exit $?
 
 		make \
 			BUILD_LOG="$BUILD_LOG" \
 			IGNORE_ERRORS="$IGNORE_ERRORS" \
-			"package/$PKG/check" V=s 2>&1
+			"package/$PKG/check" V=s 2>&1 | \
+				tee logtmp
+
+		RET=${PIPESTATUS[0]}
+
+		if [ $RET -ne 0 ]; then
+			echo_red   "=> Package check failed: $RET)"
+			exit $RET
+		fi
+
+		badhash_msg="HASH does not match "
+		badhash_msg+="|HASH uses deprecated hash,"
+		badhash_msg+="|HASH is missing,"
+		if grep -qE "$badhash_msg" logtmp; then
+			echo "Package HASH check failed"
+			exit 1
+		fi
 	done
 
 	make \
