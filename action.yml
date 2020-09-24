@@ -9,6 +9,7 @@ runs:
     - run: |
         docker run --rm \
           --env BUILD_LOG \
+          --env CONTAINER \
           --env EXTRA_FEEDS \
           --env FEEDNAME \
           --env GITHUB_WORKSPACE \

@@ -50,6 +50,7 @@ jobs:
 The action reads a few env variables:
 
 * `ARCH` determines the used OpenWrt SDK Docker container
+* `CONTAINER` can set other SDK containers than `openwrtorg/sdk`
 * `FEEDNAME` used in the created `feeds.conf` for the current repo. Defaults to
   `action`.
 * `IGNORE_ERRORS` can ignore failing packages builds.
