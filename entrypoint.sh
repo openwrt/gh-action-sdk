@@ -46,9 +46,9 @@ else
 
 		RET=${PIPESTATUS[0]}
 
-		if [ $RET -ne 0 ]; then
+		if [ "$RET" -ne 0 ]; then
 			echo_red   "=> Package check failed: $RET)"
-			exit $RET
+			exit "$RET"
 		fi
 
 		badhash_msg="HASH does not match "
