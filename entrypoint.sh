@@ -7,6 +7,11 @@ BUILD_LOG="${BUILD_LOG:-1}"
 
 cd /home/build/openwrt/
 
+if [ -n "$KEY_BUILD" ]; then
+	echo "$KEY_BUILD" > key-build
+	SIGNED_PACKAGES="y"
+fi
+
 echo "src-link $FEEDNAME $GITHUB_WORKSPACE/" > feeds.conf
 cat feeds.conf.default >> feeds.conf
 
@@ -24,7 +29,7 @@ if [ -z "$PACKAGES" ]; then
 	./scripts/feeds install -d y -p "$FEEDNAME" -f -a
 	make \
 		BUILD_LOG="$BUILD_LOG" \
-		CONFIG_SIGNED_PACKAGES="$SIGNED_PACKAGES" \
+		SIGNED_PACKAGES="$SIGNED_PACKAGES" \
 		IGNORE_ERRORS="$IGNORE_ERRORS" \
 		V="$V" \
 		-j "$(nproc)"

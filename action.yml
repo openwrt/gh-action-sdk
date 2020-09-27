@@ -14,8 +14,8 @@ runs:
           --env FEEDNAME \
           --env GITHUB_WORKSPACE \
           --env IGNORE_ERRORS \
+          --env KEY_BUILD \
           --env PACKAGES \
-          --env SIGNED_PACKAGES \
           --env V \
           --workdir /github/workspace \
           -v $(pwd):/github/workspace \

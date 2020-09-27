@@ -49,12 +49,13 @@ jobs:
 
 The action reads a few env variables:
 
-* `ARCH` determines the used OpenWrt SDK Docker container
-* `CONTAINER` can set other SDK containers than `openwrtorg/sdk`
+* `ARCH` determines the used OpenWrt SDK Docker container.
+* `BUILD_LOG` stores build logs in `./logs`.
+* `CONTAINER` can set other SDK containers than `openwrtorg/sdk`.
+* `EXTRA_FEEDS` are added to the `feeds.conf`, where `|` are replaced by white
+  spaces.
 * `FEEDNAME` used in the created `feeds.conf` for the current repo. Defaults to
   `action`.
 * `IGNORE_ERRORS` can ignore failing packages builds.
-* `EXTRA_FEEDS` are added to the `feeds.conf`, where `|` are replaced by white
-  spaces. 
-* `BUILD_LOG` stores build logs in `./logs`
-* `V` changes the build verbosity level
+* `KEY_BUILD` can be a private Signify/`usign` key to sign the packages feed.
+* `V` changes the build verbosity level.
