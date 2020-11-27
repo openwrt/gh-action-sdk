@@ -8,6 +8,7 @@ BUILD_LOG="${BUILD_LOG:-1}"
 cd /home/build/openwrt/
 
 if [ -n "$KEY_BUILD" ]; then
+	echo "Signing activated"
 	echo "$KEY_BUILD" > key-build
 	SIGNED_PACKAGES="y"
 fi
@@ -96,4 +97,9 @@ fi
 
 if [ -d logs/ ]; then
 	mv logs/ "$GITHUB_WORKSPACE/"
+fi
+
+if [ -n "$RUN_SIZE_COMPARE" ]; then
+	./scripts/size_compare.sh | tee size_compare.txt
+	echo "::warning::$(cat size_compare.txt)"
 fi

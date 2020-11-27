@@ -16,6 +16,7 @@ runs:
           --env IGNORE_ERRORS \
           --env KEY_BUILD \
           --env PACKAGES \
+          --env RUN_SIZE_COMPARE \
           --env V \
           --workdir /github/workspace \
           -v $(pwd):/github/workspace \

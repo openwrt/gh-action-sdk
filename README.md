@@ -59,3 +59,4 @@ The action reads a few env variables:
 * `IGNORE_ERRORS` can ignore failing packages builds.
 * `KEY_BUILD` can be a private Signify/`usign` key to sign the packages feed.
 * `V` changes the build verbosity level.
+* `RUN_SIZE_COMPARE` runs the size_compare.sh script and posts the output.
