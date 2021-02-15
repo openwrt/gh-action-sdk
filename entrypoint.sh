@@ -63,6 +63,22 @@ else
 			echo "Package HASH check failed"
 			exit 1
 		fi
+
+		PATCHES_DIR=$(find "$GITHUB_WORKSPACE" -path "*/$PKG/patches")
+		if [ -d "$PATCHES_DIR" ]; then
+			make \
+				BUILD_LOG="$BUILD_LOG" \
+				IGNORE_ERRORS="$IGNORE_ERRORS" \
+				"package/$PKG/refresh" V=s || \
+					exit $?
+
+			git -C "$PATCHES_DIR" diff --quiet -- .
+			if [ $? -ne 0 ]; then
+				echo "Dirty patches detected, please refresh and review the diff"
+				git -C "$PATCHES_DIR" checkout -- .
+				exit 1
+			fi
+		fi
 	done
 
 	make \
