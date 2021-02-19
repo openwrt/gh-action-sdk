@@ -72,8 +72,7 @@ else
 				"package/$PKG/refresh" V=s || \
 					exit $?
 
-			git -C "$PATCHES_DIR" diff --quiet -- .
-			if [ $? -ne 0 ]; then
+			if ! git -C "$PATCHES_DIR" diff --quiet -- .; then
 				echo "Dirty patches detected, please refresh and review the diff"
 				git -C "$PATCHES_DIR" checkout -- .
 				exit 1
