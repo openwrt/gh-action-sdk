@@ -51,7 +51,7 @@ The action reads a few env variables:
 
 * `ARCH` determines the used OpenWrt SDK Docker container.
 * `BUILD_LOG` stores build logs in `./logs`.
-* `CONTAINER` can set other SDK containers than `openwrtorg/sdk`.
+* `CONTAINER` can set other SDK containers than `openwrt/sdk`.
 * `EXTRA_FEEDS` are added to the `feeds.conf`, where `|` are replaced by white
   spaces.
 * `FEEDNAME` used in the created `feeds.conf` for the current repo. Defaults to
