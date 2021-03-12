@@ -15,6 +15,7 @@ runs:
           --env GITHUB_WORKSPACE \
           --env IGNORE_ERRORS \
           --env KEY_BUILD \
+          --env NO_REFRESH_CHECK \
           --env PACKAGES \
           --env V \
           --workdir /github/workspace \

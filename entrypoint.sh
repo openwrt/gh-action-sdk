@@ -65,7 +65,7 @@ else
 		fi
 
 		PATCHES_DIR=$(find "$GITHUB_WORKSPACE" -path "*/$PKG/patches")
-		if [ -d "$PATCHES_DIR" ]; then
+		if [ -d "$PATCHES_DIR" ] && [ -z "$NO_REFRESH_CHECK" ]; then
 			make \
 				BUILD_LOG="$BUILD_LOG" \
 				IGNORE_ERRORS="$IGNORE_ERRORS" \

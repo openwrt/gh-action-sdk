@@ -58,4 +58,5 @@ The action reads a few env variables:
   `action`.
 * `IGNORE_ERRORS` can ignore failing packages builds.
 * `KEY_BUILD` can be a private Signify/`usign` key to sign the packages feed.
+* `NO_REFRESH_CHECK` disable check if patches need a refresh.
 * `V` changes the build verbosity level.
