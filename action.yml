@@ -17,6 +17,7 @@ runs:
           --env KEY_BUILD \
           --env NO_REFRESH_CHECK \
           --env PACKAGES \
+          --env RUN_SIZE_COMPARE \
           --env V \
           --workdir /github/workspace \
           -v $(pwd):/github/workspace \
