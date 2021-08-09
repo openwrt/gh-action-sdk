@@ -78,6 +78,17 @@ else
 				exit 1
 			fi
 		fi
+
+		FILES_DIR=$(find "$GITHUB_WORKSPACE" -path "*/$PKG/files")
+		if [ -d "$FILES_DIR" ] && [ -z "$NO_SHFMT_CHECK" ]; then
+			find "$FILES_DIR" -name "*.init" -exec shfmt -w -sr -s '{}' \;
+			if ! git -C "$FILES_DIR" diff --quiet -- .; then
+				echo "init script must be formatted. Please run through shfmt -w -sr -s"
+				git -C "$FILES_DIR" checkout -- .
+				exit 1
+			fi
+		fi
+
 	done
 
 	make \
