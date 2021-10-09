@@ -13,12 +13,16 @@ if [ -n "$KEY_BUILD" ]; then
 fi
 
 echo "src-link $FEEDNAME $GITHUB_WORKSPACE/" > feeds.conf
-cat feeds.conf.default >> feeds.conf
+
+if [ -z "$NO_DEFAULT_FEEDS" ]; then
+	cat feeds.conf.default >> feeds.conf
+fi
 
 #shellcheck disable=SC2153
 for EXTRA_FEED in $EXTRA_FEEDS; do
 	echo "$EXTRA_FEED" | tr '|' ' ' >> feeds.conf
 done
+
 cat feeds.conf
 
 ./scripts/feeds update -a > /dev/null
