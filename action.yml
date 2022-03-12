@@ -4,12 +4,11 @@ author: aparcar
 runs:
   using: 'composite'
   steps:
-    - run: docker build --build-arg ARCH -t sdk $GITHUB_ACTION_PATH
+    - run: docker build --build-arg CONTAINER --build-arg ARCH -t sdk $GITHUB_ACTION_PATH
       shell: bash
     - run: |
         docker run --rm \
           --env BUILD_LOG \
-          --env CONTAINER \
           --env EXTRA_FEEDS \
           --env FEEDNAME \
           --env GITHUB_WORKSPACE \
