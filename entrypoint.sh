@@ -15,10 +15,11 @@ fi
 echo "src-link $FEEDNAME $GITHUB_WORKSPACE/" > feeds.conf
 
 if [ -z "$NO_DEFAULT_FEEDS" ]; then
-	echo 'src-git-full luci https://github.com/openwrt/luci' > feeds.conf
-	echo 'src-git-full routing https://github.com/openwrt/routing' >> feeds.conf
-	echo 'src-git-full packages https://github.com/openwrt/packages' >> feeds.conf
-	echo 'src-git-full telephony https://github.com/openwrt/telephony' >> feeds.conf
+	sed \
+		-e 's,https://git.openwrt.org/feed/,https://github.com/openwrt/,' \
+		-e 's,https://git.openwrt.org/openwrt/,https://github.com/openwrt/,' \
+		-e 's,https://git.openwrt.org/project/,https://github.com/openwrt/,' \
+		feeds.conf.default >> feeds.conf
 fi
 
 #shellcheck disable=SC2153
