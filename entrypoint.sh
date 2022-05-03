@@ -34,7 +34,7 @@ make defconfig > /dev/null
 
 if [ -z "$PACKAGES" ]; then
 	# compile all packages in feed
-	./scripts/feeds install -d y -p "$FEEDNAME" -f -a
+	./scripts/feeds install -p "$FEEDNAME" -f -a
 	make \
 		BUILD_LOG="$BUILD_LOG" \
 		SIGNED_PACKAGES="$SIGNED_PACKAGES" \
