@@ -22,10 +22,13 @@ fi
 
 echo "src-link $FEEDNAME /feed/" >> feeds.conf
 
+ALL_CUSTOM_FEEDS=
 #shellcheck disable=SC2153
 for EXTRA_FEED in $EXTRA_FEEDS; do
 	echo "$EXTRA_FEED" | tr '|' ' ' >> feeds.conf
+	ALL_CUSTOM_FEEDS+="$(echo "$EXTRA_FEED" | cut -d'|' -f2) "
 done
+ALL_CUSTOM_FEEDS+="$FEEDNAME"
 
 cat feeds.conf
 
@@ -34,7 +37,9 @@ make defconfig > /dev/null
 
 if [ -z "$PACKAGES" ]; then
 	# compile all packages in feed
-	./scripts/feeds install -p "$FEEDNAME" -f -a
+	for FEED in $ALL_CUSTOM_FEEDS; do
+		./scripts/feeds install -p "$FEED" -f -a
+	done
 	make \
 		BUILD_LOG="$BUILD_LOG" \
 		SIGNED_PACKAGES="$SIGNED_PACKAGES" \
@@ -44,7 +49,9 @@ if [ -z "$PACKAGES" ]; then
 else
 	# compile specific packages with checks
 	for PKG in $PACKAGES; do
-		./scripts/feeds install -p "$FEEDNAME" -f "$PKG"
+		for FEED in $ALL_CUSTOM_FEEDS; do
+			./scripts/feeds install -p "$FEED" -f "$PKG"
+		done
 		make \
 			BUILD_LOG="$BUILD_LOG" \
 			IGNORE_ERRORS="$IGNORE_ERRORS" \
