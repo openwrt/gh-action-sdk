@@ -125,9 +125,9 @@ else
 fi
 
 if [ -d bin/ ]; then
-	mv bin/ "$GITHUB_WORKSPACE/"
+	mv bin/ "$GITHUB_WORKSPACE/artifacts/"
 fi
 
 if [ -d logs/ ]; then
-	mv logs/ "$GITHUB_WORKSPACE/"
+	mv logs/ "$GITHUB_WORKSPACE/artifacts/"
 fi
