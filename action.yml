@@ -4,6 +4,10 @@ author: aparcar
 runs:
   using: 'composite'
   steps:
+    - run: mkdir $GITHUB_WORKSPACE/artifacts
+      shell: bash
+    - run: chmod o+rw $GITHUB_WORKSPACE/artifacts
+      shell: bash
     - run: docker build --build-arg CONTAINER --build-arg ARCH -t sdk $GITHUB_ACTION_PATH
       shell: bash
     - run: |
@@ -23,4 +27,8 @@ runs:
           -v $(pwd):/github/workspace \
           -v $GITHUB_WORKSPACE:$GITHUB_WORKSPACE \
           sdk
+      shell: bash
+    - run: cp -r $GITHUB_WORKSPACE/artifacts/. $GITHUB_WORKSPACE/
+      shell: bash
+    - run: sudo rm -rf $GITHUB_WORKSPACE/artifacts/
       shell: bash
