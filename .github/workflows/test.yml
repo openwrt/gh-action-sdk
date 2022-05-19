@@ -1,0 +1,36 @@
+name: Test
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    name: Test ${{ matrix.arch }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch:
+          - arm_cortex-a15_neon-vfpv4
+          - mips_24kc
+          - x86_64
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Add test directories
+        run: mkdir artifacts feed
+
+      - name: Build
+        uses: ./
+        env:
+          ARCH: ${{ matrix.arch }}-master
+          ARTIFACTS_DIR: ${{ github.workspace }}/artifacts
+          FEED_DIR: ${{ github.workspace }}/feed
+          PACKAGES: vim privoxy
+
+      - name: Verify packages saved
+        run: find artifacts/bin/packages/${{ matrix.arch }}/packages/ -maxdepth 1 -name '*.ipk' -type f | grep .
+
+      - name: Verify logs saved
+        run: find artifacts/logs/package/feeds/packages/ -mindepth 2 -maxdepth 2 -name compile.txt -type f | grep .
