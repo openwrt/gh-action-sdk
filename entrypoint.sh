@@ -12,7 +12,7 @@ if [ -n "$KEY_BUILD" ]; then
 	SIGNED_PACKAGES="y"
 fi
 
-echo "src-link $FEEDNAME $GITHUB_WORKSPACE/" > feeds.conf
+echo "src-link $FEEDNAME /feed/" > feeds.conf
 
 if [ -z "$NO_DEFAULT_FEEDS" ]; then
 	sed \
@@ -72,7 +72,7 @@ else
 			exit 1
 		fi
 
-		PATCHES_DIR=$(find "$GITHUB_WORKSPACE" -path "*/$PKG/patches")
+		PATCHES_DIR=$(find /feed -path "*/$PKG/patches")
 		if [ -d "$PATCHES_DIR" ] && [ -z "$NO_REFRESH_CHECK" ]; then
 			make \
 				BUILD_LOG="$BUILD_LOG" \
@@ -87,7 +87,7 @@ else
 			fi
 		fi
 
-		FILES_DIR=$(find "$GITHUB_WORKSPACE" -path "*/$PKG/files")
+		FILES_DIR=$(find /feed -path "*/$PKG/files")
 		if [ -d "$FILES_DIR" ] && [ -z "$NO_SHFMT_CHECK" ]; then
 			find "$FILES_DIR" -name "*.init" -exec shfmt -w -sr -s '{}' \;
 			if ! git -C "$FILES_DIR" diff --quiet -- .; then
@@ -125,9 +125,9 @@ else
 fi
 
 if [ -d bin/ ]; then
-	mv bin/ "$GITHUB_WORKSPACE/"
+	mv bin/ /artifacts/
 fi
 
 if [ -d logs/ ]; then
-	mv logs/ "$GITHUB_WORKSPACE/"
+	mv logs/ /artifacts/
 fi
