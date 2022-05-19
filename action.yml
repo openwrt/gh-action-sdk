@@ -4,7 +4,12 @@ author: aparcar
 runs:
   using: 'composite'
   steps:
-    - run: sudo chown -R 1000:1000 $GITHUB_WORKSPACE
+    - run: |
+        echo "::set-output name=artifacts_dir::${ARTIFACTS_DIR:-$GITHUB_WORKSPACE}"
+        echo "::set-output name=feed_dir::${FEED_DIR:-$GITHUB_WORKSPACE}"
+      shell: bash
+      id: inputs
+    - run: sudo chown -R 1000:1000 ${{ steps.inputs.outputs.artifacts_dir }} ${{ steps.inputs.outputs.feed_dir }}
       shell: bash
     - run: docker build --build-arg CONTAINER --build-arg ARCH -t sdk $GITHUB_ACTION_PATH
       shell: bash
@@ -13,7 +18,6 @@ runs:
           --env BUILD_LOG \
           --env EXTRA_FEEDS \
           --env FEEDNAME \
-          --env GITHUB_WORKSPACE \
           --env IGNORE_ERRORS \
           --env KEY_BUILD \
           --env NO_DEFAULT_FEEDS \
@@ -21,10 +25,11 @@ runs:
           --env NO_SHFMT_CHECK \
           --env PACKAGES \
           --env V \
-          --workdir /github/workspace \
-          -v $(pwd):/github/workspace \
-          -v $GITHUB_WORKSPACE:$GITHUB_WORKSPACE \
+          -v ${{ steps.inputs.outputs.artifacts_dir }}:/artifacts \
+          -v ${{ steps.inputs.outputs.feed_dir }}:/feed \
           sdk
       shell: bash
-    - run: sudo chown -R --reference=$GITHUB_WORKSPACE/.. $GITHUB_WORKSPACE
+    - run: sudo chown -R --reference=${{ steps.inputs.outputs.artifacts_dir }}/.. ${{ steps.inputs.outputs.artifacts_dir }}
+      shell: bash
+    - run: sudo chown -R --reference=${{ steps.inputs.outputs.feed_dir }}/.. ${{ steps.inputs.outputs.feed_dir }}
       shell: bash
