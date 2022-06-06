@@ -92,6 +92,12 @@ else
 				git -C "$PATCHES_DIR" checkout -- .
 				exit 1
 			fi
+
+			make \
+				BUILD_LOG="$BUILD_LOG" \
+				IGNORE_ERRORS="$IGNORE_ERRORS" \
+				"package/$PKG/clean" V=s || \
+					exit $?
 		fi
 
 		FILES_DIR=$(find /feed -path "*/$PKG/files")
