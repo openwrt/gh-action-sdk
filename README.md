@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build
-        uses: openwrt/gh-action-sdk@composite
+        uses: openwrt/gh-action-sdk@master
         env:
           ARCH: ${{ matrix.arch }}
 
