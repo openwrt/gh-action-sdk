@@ -5,8 +5,8 @@ runs:
   using: 'composite'
   steps:
     - run: |
-        echo "::set-output name=artifacts_dir::${ARTIFACTS_DIR:-$GITHUB_WORKSPACE}"
-        echo "::set-output name=feed_dir::${FEED_DIR:-$GITHUB_WORKSPACE}"
+        echo "artifacts_dir=${ARTIFACTS_DIR:-$GITHUB_WORKSPACE}" >> "$GITHUB_OUTPUT"
+        echo "feed_dir=${FEED_DIR:-$GITHUB_WORKSPACE}" >> "$GITHUB_OUTPUT"
       shell: bash
       id: inputs
     - run: sudo chown -R 1000:1000 ${{ steps.inputs.outputs.artifacts_dir }} ${{ steps.inputs.outputs.feed_dir }}
