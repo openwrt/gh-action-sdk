@@ -7,6 +7,10 @@ BUILD_LOG="${BUILD_LOG:-1}"
 
 cd /home/build/openwrt/
 
+if [ "SIGNED_PACKAGES" = "y" -a -z "$KEY_BUILD" ]; then
+	staging_dir/host/bin/usign -G -s key-build -p key-build.pub -c "Local build key"
+fi
+
 if [ -n "$KEY_BUILD" ]; then
 	echo "$KEY_BUILD" > key-build
 	SIGNED_PACKAGES="y"
@@ -135,6 +139,15 @@ else
 				exit $RET
 			}
 	done
+
+	if [ "SIGNED_PACKAGES" = "y" ]; then
+		make package/index V=s
+		if [ -f "key-build.pub" ]; then
+			fingerprint="$(staging_dir/host/bin/usign -F -p key-build.pub)"
+			mkdir -p /artifacts/pubkey
+			cp key-build.pub "/artifacts/pubkey/$fingerprint"
+		fi
+	fi
 fi
 
 if [ -d bin/ ]; then

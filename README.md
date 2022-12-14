@@ -62,6 +62,8 @@ The action reads a few env variables:
   `action`.
 * `IGNORE_ERRORS` can ignore failing packages builds.
 * `KEY_BUILD` can be a private Signify/`usign` key to sign the packages feed.
+* `SIGNED_PACKAGES` sign the packages feed if set to y. If `KEY_BUILD` is not
+  set, a random keypair will be generated.
 * `NO_DEFAULT_FEEDS` disable adding the default SDK feeds
 * `NO_REFRESH_CHECK` disable check if patches need a refresh.
 * `NO_SHFMT_CHECK` disable check if init files are formated

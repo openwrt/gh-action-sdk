@@ -24,6 +24,7 @@ runs:
           --env NO_REFRESH_CHECK \
           --env NO_SHFMT_CHECK \
           --env PACKAGES \
+          --env SIGNED_PACKAGES \
           --env V \
           -v ${{ steps.inputs.outputs.artifacts_dir }}:/artifacts \
           -v ${{ steps.inputs.outputs.feed_dir }}:/feed \
