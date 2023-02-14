@@ -137,6 +137,10 @@ else
 	done
 fi
 
+if [ "$INDEX" = '1' ];then
+	make package/index
+fi
+
 if [ -d bin/ ]; then
 	mv bin/ /artifacts/
 fi
