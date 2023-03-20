@@ -17,6 +17,8 @@ runs:
         docker run --rm \
           --env BUILD_LOG \
           --env EXTRA_FEEDS \
+          --env EXTRA_INIT_SCRIPT \
+          --env EXTRA_SCRIPT_AFTER_UPDATE \
           --env FEEDNAME \
           --env IGNORE_ERRORS \
           --env KEY_BUILD \

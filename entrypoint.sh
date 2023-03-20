@@ -2,6 +2,8 @@
 
 set -ef
 
+bash -c "$EXTRA_INIT_SCRIPT"
+
 FEEDNAME="${FEEDNAME:-action}"
 BUILD_LOG="${BUILD_LOG:-1}"
 
@@ -33,6 +35,9 @@ ALL_CUSTOM_FEEDS+="$FEEDNAME"
 cat feeds.conf
 
 ./scripts/feeds update -a > /dev/null
+
+bash -c "$EXTRA_SCRIPT_AFTER_UPDATE"
+
 make defconfig > /dev/null
 
 if [ -z "$PACKAGES" ]; then

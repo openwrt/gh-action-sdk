@@ -66,4 +66,6 @@ The action reads a few env variables:
 * `NO_DEFAULT_FEEDS` disable adding the default SDK feeds
 * `NO_REFRESH_CHECK` disable check if patches need a refresh.
 * `NO_SHFMT_CHECK` disable check if init files are formated
+* `EXTRA_SCRIPT_AFTER_UPDATE` can be used to run additional scripts after the `feeds update` step.
+* `EXTRA_INIT_SCRIPT` can be used to run additional scripts at the beginning of the build process. This is useful for example to install additional packages, like `upx`.
 * `V` changes the build verbosity level.
