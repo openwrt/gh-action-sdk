@@ -1,4 +1,4 @@
-ARG CONTAINER=openwrt/sdk
+ARG CONTAINER=ghcr.io/openwrt/sdk
 ARG ARCH=mips_24kc
 FROM $CONTAINER:$ARCH
 
