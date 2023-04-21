@@ -16,7 +16,7 @@ name: Test Build
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 0
 
       - name: Build
-        uses: openwrt/gh-action-sdk@master
+        uses: openwrt/gh-action-sdk@main
         env:
           ARCH: ${{ matrix.arch }}
 
