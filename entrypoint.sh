@@ -20,13 +20,12 @@ fi
 
 echo "src-link $FEEDNAME /feed/" >> feeds.conf
 
-ALL_CUSTOM_FEEDS=
+ALL_CUSTOM_FEEDS="$FEEDNAME "
 #shellcheck disable=SC2153
 for EXTRA_FEED in $EXTRA_FEEDS; do
 	echo "$EXTRA_FEED" | tr '|' ' ' >> feeds.conf
 	ALL_CUSTOM_FEEDS+="$(echo "$EXTRA_FEED" | cut -d'|' -f2) "
 done
-ALL_CUSTOM_FEEDS+="$FEEDNAME"
 
 cat feeds.conf
 
