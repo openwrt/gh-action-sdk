@@ -54,8 +54,7 @@ else
 		make \
 			BUILD_LOG="$BUILD_LOG" \
 			IGNORE_ERRORS="$IGNORE_ERRORS" \
-			"package/$PKG/download" V=s || \
-				exit $?
+			"package/$PKG/download" V=s
 
 		make \
 			BUILD_LOG="$BUILD_LOG" \
@@ -83,8 +82,7 @@ else
 			make \
 				BUILD_LOG="$BUILD_LOG" \
 				IGNORE_ERRORS="$IGNORE_ERRORS" \
-				"package/$PKG/refresh" V=s || \
-					exit $?
+				"package/$PKG/refresh" V=s
 
 			if ! git -C "$PATCHES_DIR" diff --quiet -- .; then
 				echo "Dirty patches detected, please refresh and review the diff"
@@ -95,8 +93,7 @@ else
 			make \
 				BUILD_LOG="$BUILD_LOG" \
 				IGNORE_ERRORS="$IGNORE_ERRORS" \
-				"package/$PKG/clean" V=s || \
-					exit $?
+				"package/$PKG/clean" V=s
 		fi
 
 		FILES_DIR=$(find /feed -path "*/$PKG/files")
