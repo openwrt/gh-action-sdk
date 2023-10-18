@@ -42,6 +42,7 @@ if [ -z "$PACKAGES" ]; then
 		BUILD_LOG="$BUILD_LOG" \
 		SIGNED_PACKAGES="$SIGNED_PACKAGES" \
 		IGNORE_ERRORS="$IGNORE_ERRORS" \
+		CONFIG_AUTOREMOVE=y \
 		V="$V" \
 		-j "$(nproc)"
 else
@@ -125,6 +126,7 @@ else
 		make \
 			BUILD_LOG="$BUILD_LOG" \
 			IGNORE_ERRORS="$IGNORE_ERRORS" \
+			CONFIG_AUTOREMOVE=y \
 			V="$V" \
 			-j "$(nproc)" \
 			"package/$PKG/compile" || {
