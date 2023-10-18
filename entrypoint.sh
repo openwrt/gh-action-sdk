@@ -38,19 +38,23 @@ if [ -z "$PACKAGES" ]; then
 	for FEED in $ALL_CUSTOM_FEEDS; do
 		./scripts/feeds install -p "$FEED" -f -a
 	done
+
+	RET=0
+
 	make \
 		BUILD_LOG="$BUILD_LOG" \
 		SIGNED_PACKAGES="$SIGNED_PACKAGES" \
 		IGNORE_ERRORS="$IGNORE_ERRORS" \
 		CONFIG_AUTOREMOVE=y \
 		V="$V" \
-		-j "$(nproc)"
+		-j "$(nproc)" || RET=$?
 else
 	# compile specific packages with checks
 	for PKG in $PACKAGES; do
 		for FEED in $ALL_CUSTOM_FEEDS; do
 			./scripts/feeds install -p "$FEED" -f "$PKG"
 		done
+
 		make \
 			BUILD_LOG="$BUILD_LOG" \
 			IGNORE_ERRORS="$IGNORE_ERRORS" \
@@ -114,6 +118,8 @@ else
 		-f <(echo "\$(info \$(sort \$(package-y) \$(package-m)))"; echo -en "a:\n\t@:") \
 			| tr ' ' '\n' > enabled-package-subdirs.txt
 
+	RET=0
+
 	for PKG in $PACKAGES; do
 		if ! grep -m1 -qE "(^|/)$PKG$" enabled-package-subdirs.txt; then
 			echo "::warning file=$PKG::Skipping $PKG due to unsupported architecture"
@@ -128,8 +134,7 @@ else
 			-j "$(nproc)" \
 			"package/$PKG/compile" || {
 				RET=$?
-				make "package/$PKG/compile" V=s -j 1
-				exit $RET
+				break
 			}
 	done
 fi
@@ -145,3 +150,5 @@ fi
 if [ -d logs/ ]; then
 	mv logs/ /artifacts/
 fi
+
+exit "$RET"
