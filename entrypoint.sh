@@ -2,6 +2,23 @@
 
 set -ef
 
+GROUP=
+
+group() {
+	endgroup
+	echo "::group::  $1"
+	GROUP=1
+}
+
+endgroup() {
+	if [ -n "$GROUP" ]; then
+		echo "::endgroup::"
+	fi
+	GROUP=
+}
+
+trap 'endgroup' ERR
+
 FEEDNAME="${FEEDNAME:-action}"
 BUILD_LOG="${BUILD_LOG:-1}"
 
@@ -28,15 +45,24 @@ for EXTRA_FEED in $EXTRA_FEEDS; do
 done
 ALL_CUSTOM_FEEDS+="$FEEDNAME"
 
+group "feeds.conf"
 cat feeds.conf
+endgroup
 
-./scripts/feeds update -a > /dev/null
-make defconfig > /dev/null
+group "feeds update -a"
+./scripts/feeds update -a
+endgroup
+
+group "make defconfig"
+make defconfig
+endgroup
 
 if [ -z "$PACKAGES" ]; then
 	# compile all packages in feed
 	for FEED in $ALL_CUSTOM_FEEDS; do
+		group "feeds install -p $FEED -f -a"
 		./scripts/feeds install -p "$FEED" -f -a
+		endgroup
 	done
 
 	RET=0
@@ -52,19 +78,25 @@ else
 	# compile specific packages with checks
 	for PKG in $PACKAGES; do
 		for FEED in $ALL_CUSTOM_FEEDS; do
+			group "feeds install -p $FEED -f $PKG"
 			./scripts/feeds install -p "$FEED" -f "$PKG"
+			endgroup
 		done
 
+		group "make package/$PKG/download"
 		make \
 			BUILD_LOG="$BUILD_LOG" \
 			IGNORE_ERRORS="$IGNORE_ERRORS" \
 			"package/$PKG/download" V=s
+		endgroup
 
+		group "make package/$PKG/check"
 		make \
 			BUILD_LOG="$BUILD_LOG" \
 			IGNORE_ERRORS="$IGNORE_ERRORS" \
 			"package/$PKG/check" V=s 2>&1 | \
 				tee logtmp
+		endgroup
 
 		RET=${PIPESTATUS[0]}
 
@@ -83,10 +115,12 @@ else
 
 		PATCHES_DIR=$(find /feed -path "*/$PKG/patches")
 		if [ -d "$PATCHES_DIR" ] && [ -z "$NO_REFRESH_CHECK" ]; then
+			group "make package/$PKG/refresh"
 			make \
 				BUILD_LOG="$BUILD_LOG" \
 				IGNORE_ERRORS="$IGNORE_ERRORS" \
 				"package/$PKG/refresh" V=s
+			endgroup
 
 			if ! git -C "$PATCHES_DIR" diff --quiet -- .; then
 				echo "Dirty patches detected, please refresh and review the diff"
@@ -94,10 +128,12 @@ else
 				exit 1
 			fi
 
+			group "make package/$PKG/clean"
 			make \
 				BUILD_LOG="$BUILD_LOG" \
 				IGNORE_ERRORS="$IGNORE_ERRORS" \
 				"package/$PKG/clean" V=s
+			endgroup
 		fi
 
 		FILES_DIR=$(find /feed -path "*/$PKG/files")
@@ -140,7 +176,9 @@ else
 fi
 
 if [ "$INDEX" = '1' ];then
+	group "make package/index"
 	make package/index
+	endgroup
 fi
 
 if [ -d bin/ ]; then
