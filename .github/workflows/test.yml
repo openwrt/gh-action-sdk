@@ -5,11 +5,16 @@ on:
 
 jobs:
   build:
-    name: Test ${{ matrix.arch }}
+    name: Test ${{ matrix.arch }}-${{ matrix.release }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
+        release:
+          - master
+          - 23.05.2
+          - 23.05.0
+          - 22.03.2
         arch:
           - arm_cortex-a15_neon-vfpv4
           - mips_24kc
@@ -24,7 +29,7 @@ jobs:
       - name: Build
         uses: ./
         env:
-          ARCH: ${{ matrix.arch }}-master
+          ARCH: ${{ matrix.arch }}-${{ matrix.release }}
           ARTIFACTS_DIR: ${{ github.workspace }}/artifacts
           FEED_DIR: ${{ github.workspace }}/feed
           PACKAGES: vim privoxy
