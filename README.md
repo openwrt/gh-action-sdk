@@ -50,6 +50,7 @@ jobs:
 The action reads a few env variables:
 
 * `ARCH` determines the used OpenWrt SDK Docker container.
+  E.g. `x86_64` or `x86_64-22.03.2`.
 * `ARTIFACTS_DIR` determines where built packages and build logs are saved.
   Defaults to the default working directory (`GITHUB_WORKSPACE`).
 * `BUILD_LOG` stores build logs in `./logs`.
