@@ -24,7 +24,7 @@ BUILD_LOG="${BUILD_LOG:-1}"
 
 if [ -n "$KEY_BUILD" ]; then
 	echo "$KEY_BUILD" > key-build
-	SIGNED_PACKAGES="y"
+	CONFIG_SIGNED_PACKAGES="y"
 fi
 
 if [ -z "$NO_DEFAULT_FEEDS" ]; then
@@ -68,7 +68,7 @@ if [ -z "$PACKAGES" ]; then
 
 	make \
 		BUILD_LOG="$BUILD_LOG" \
-		SIGNED_PACKAGES="$SIGNED_PACKAGES" \
+		CONFIG_SIGNED_PACKAGES="$CONFIG_SIGNED_PACKAGES" \
 		IGNORE_ERRORS="$IGNORE_ERRORS" \
 		CONFIG_AUTOREMOVE=y \
 		V="$V" \
