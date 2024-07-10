@@ -72,7 +72,7 @@ if [ -z "$PACKAGES" ]; then
 		IGNORE_ERRORS="$IGNORE_ERRORS" \
 		CONFIG_AUTOREMOVE=y \
 		V="$V" \
-		"$MAKE_ARGS" \
+		$MAKE_ARGS \
 		-j "$(nproc)" || RET=$?
 else
 	# compile specific packages with checks
@@ -167,7 +167,7 @@ else
 			IGNORE_ERRORS="$IGNORE_ERRORS" \
 			CONFIG_AUTOREMOVE=y \
 			V="$V" \
-			"$MAKE_ARGS" \
+			$MAKE_ARGS \
 			-j "$(nproc)" \
 			"package/$PKG/compile" || {
 				RET=$?
