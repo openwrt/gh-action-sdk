@@ -13,7 +13,7 @@ runs:
       shell: bash
     - run: |
         echo "::group:: construct builder"
-        docker buildx create --name wrt-sdk-container-builder --driver=docker-container wrt-sdk-container-builder
+        docker buildx create --name wrt-sdk-container-builder --driver=docker-container
         echo "::endgroup::"
         echo "::group::  docker build -t sdk $GITHUB_ACTION_PATH"
         docker build \
