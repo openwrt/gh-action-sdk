@@ -12,16 +12,18 @@ runs:
     - run: sudo chown -R 1000:1000 ${{ steps.inputs.outputs.artifacts_dir }} ${{ steps.inputs.outputs.feed_dir }}
       shell: bash
     - run: |
-        echo "::group:: construct builder"
+        echo "::group:: Construct builder with docker-container driver"
         docker buildx create --name wrt-sdk-container-builder --driver=docker-container
-        docker buildx ls
         echo "::endgroup::"
-        echo "::group::  docker build -t sdk $GITHUB_ACTION_PATH"
+        echo "::group:: Build docker image for SDK"
         docker build \
           --build-arg CONTAINER --build-arg ARCH \
-          --builder=wrt-sdk-container-builder \
+          --builder=wrt-sdk-container-builder --load \ # use given builder and load result to local daemon
           --cache-to type=gha,mode=max --cache-from type=gha \
           -t sdk $GITHUB_ACTION_PATH
+        echo "::endgroup::"
+        echo "::group:: Show docker images"
+        docker buildx ls
         echo "::endgroup::"
       shell: bash
     - run: |
@@ -39,7 +41,7 @@ runs:
           --env V \
           -v ${{ steps.inputs.outputs.artifacts_dir }}:/artifacts \
           -v ${{ steps.inputs.outputs.feed_dir }}:/feed \
-          sdk:latest
+          sdk
       shell: bash
     - run: sudo chown -R --reference=${{ steps.inputs.outputs.artifacts_dir }}/.. ${{ steps.inputs.outputs.artifacts_dir }}
       shell: bash
