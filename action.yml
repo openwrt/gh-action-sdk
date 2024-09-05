@@ -12,10 +12,13 @@ runs:
     - run: sudo chown -R 1000:1000 ${{ steps.inputs.outputs.artifacts_dir }} ${{ steps.inputs.outputs.feed_dir }}
       shell: bash
     - run: |
+        echo "::group:: construct builder"
+        docker buildx create --name wrt-sdk-container-builder --driver=docker-container wrt-sdk-container-builder
+        echo "::endgroup::"
         echo "::group::  docker build -t sdk $GITHUB_ACTION_PATH"
         docker build \
           --build-arg CONTAINER --build-arg ARCH \
-          --driver docker-container \
+          --builder=wrt-sdk-container-builder \
           --cache-to type=gha,mode=max --cache-from type=gha \
           -t sdk $GITHUB_ACTION_PATH
         echo "::endgroup::"
