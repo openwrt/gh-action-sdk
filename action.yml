@@ -15,7 +15,7 @@ runs:
         echo "::group::  docker build -t sdk $GITHUB_ACTION_PATH"
         docker build \
           --build-arg CONTAINER --build-arg ARCH \
-          --builder=container \
+          --driver docker-container \
           --cache-to type=gha,mode=max --cache-from type=gha \
           -t sdk $GITHUB_ACTION_PATH
         echo "::endgroup::"
