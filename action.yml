@@ -14,6 +14,7 @@ runs:
     - run: |
         echo "::group:: construct builder"
         docker buildx create --name wrt-sdk-container-builder --driver=docker-container
+        docker buildx ls
         echo "::endgroup::"
         echo "::group::  docker build -t sdk $GITHUB_ACTION_PATH"
         docker build \
@@ -38,7 +39,7 @@ runs:
           --env V \
           -v ${{ steps.inputs.outputs.artifacts_dir }}:/artifacts \
           -v ${{ steps.inputs.outputs.feed_dir }}:/feed \
-          sdk
+          sdk:latest
       shell: bash
     - run: sudo chown -R --reference=${{ steps.inputs.outputs.artifacts_dir }}/.. ${{ steps.inputs.outputs.artifacts_dir }}
       shell: bash
