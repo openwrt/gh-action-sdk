@@ -18,7 +18,7 @@ runs:
         echo "::group:: Build docker image for SDK"
         docker build \
           --build-arg CONTAINER --build-arg ARCH \
-          --builder=wrt-sdk-container-builder --load \ # use given builder and load result to local daemon
+          --builder=wrt-sdk-container-builder --load \
           --cache-to type=gha,mode=max --cache-from type=gha \
           -t sdk $GITHUB_ACTION_PATH
         echo "::endgroup::"
