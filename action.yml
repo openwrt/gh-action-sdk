@@ -11,11 +11,26 @@ runs:
       id: inputs
     - run: sudo chown -R 1000:1000 ${{ steps.inputs.outputs.artifacts_dir }} ${{ steps.inputs.outputs.feed_dir }}
       shell: bash
-    - run: |
-        echo "::group::  docker build -t sdk $GITHUB_ACTION_PATH"
-        docker build --build-arg CONTAINER --build-arg ARCH -t sdk $GITHUB_ACTION_PATH
-        echo "::endgroup::"
-      shell: bash
+    -
+      name: Set up Docker QEMU
+      uses: docker/setup-qemu-action@v3
+    -
+      name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    -
+      name: Build Docker container image
+      uses: docker/build-push-action@v6
+      with:
+        push: false
+        tags: sdk
+        context: ${{ github.action_path }}
+        build-args: |
+          CONTAINER
+          ARCH
+        cache-to: type=gha,mode=max,scope=${{ env.CONTAINER }}-${{ env.ARCH }}
+        cache-from: type=gha,scope=${{ env.CONTAINER }}-${{ env.ARCH }}
+        load: true
+
     - run: |
         docker run --rm \
           --env BUILD_LOG \
