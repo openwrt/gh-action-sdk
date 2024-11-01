@@ -39,3 +39,38 @@ jobs:
 
       - name: Verify logs saved
         run: find artifacts/logs/package/feeds/packages/ -mindepth 2 -maxdepth 2 -name compile.txt -type f | grep .
+
+  try_options:  # To test options such as FIXUP
+    name: Option FIXUP=${{ matrix.fixup }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        release:
+          - master
+        arch: # arch and release variants are tested above, so limit these here
+          - x86_64
+        fixup:
+          - 1
+          - 0
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add test directories
+        run: mkdir artifacts feed
+
+      - name: Build
+        uses: ./
+        env:
+          ARCH: ${{ matrix.arch }}-${{ matrix.release }}
+          ARTIFACTS_DIR: ${{ github.workspace }}/artifacts
+          FEED_DIR: ${{ github.workspace }}/feed
+          PACKAGES: privoxy
+          FIXUP: ${{ matrix.fixup }}
+
+      - name: Verify packages saved
+        run: find artifacts/bin/packages/${{ matrix.arch }}/packages/ -maxdepth 1 -name '*.ipk' -type f | grep .
+
+      - name: Verify logs saved
+        run: find artifacts/logs/package/feeds/packages/ -mindepth 2 -maxdepth 2 -name compile.txt -type f | grep .

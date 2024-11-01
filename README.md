@@ -69,3 +69,5 @@ The action reads a few env variables:
 * `NO_SHFMT_CHECK` disable check if init files are formated
 * `PACKAGES` (Optional) specify the list of packages (space separated) to be built
 * `V` changes the build verbosity level.
+* `FIXUP` set to `1` to [generate](https://openwrt.org/docs/guide-developer/packages#use_source_repository) the `PKG_MIRROR_HASH`, and for other [fixes](https://openwrt.org/docs/guide-developer/packages#testing_a_package_makefile). Only used when `PACKAGES` option is used.
+
