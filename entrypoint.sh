@@ -19,9 +19,11 @@ endgroup() {
 
 trap 'endgroup' ERR
 
+group "bash setup.sh"
 # snapshot containers don't ship with the SDK to save bandwidth
 # run setup.sh to download and extract the SDK
 [ ! -f setup.sh ] || bash setup.sh
+endgroup
 
 FEEDNAME="${FEEDNAME:-action}"
 BUILD_LOG="${BUILD_LOG:-1}"
