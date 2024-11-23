@@ -35,7 +35,7 @@ jobs:
           PACKAGES: vim privoxy
 
       - name: Verify packages saved
-        run: find artifacts/bin/packages/${{ matrix.arch }}/packages/ -maxdepth 1 -name '*.ipk' -type f | grep .
+        run: find artifacts/bin/packages/${{ matrix.arch }}/packages/ -maxdepth 1 -name '*.ipk' -o -name '*.apk' -type f | grep .
 
       - name: Verify logs saved
         run: find artifacts/logs/package/feeds/packages/ -mindepth 2 -maxdepth 2 -name compile.txt -type f | grep .
