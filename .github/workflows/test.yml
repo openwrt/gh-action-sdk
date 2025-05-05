@@ -15,6 +15,7 @@ jobs:
           - 24.10.1
           - 23.05.5
         arch:
+          - aarch64_generic
           - arm_cortex-a15_neon-vfpv4
           - mips_24kc
           - x86_64
