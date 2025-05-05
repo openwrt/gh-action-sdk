@@ -12,9 +12,8 @@ jobs:
       matrix:
         release:
           - master
-          - 23.05.2
-          - 23.05.0
-          - 22.03.2
+          - 24.10.1
+          - 23.05.5
         arch:
           - arm_cortex-a15_neon-vfpv4
           - mips_24kc
