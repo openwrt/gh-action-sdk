@@ -63,7 +63,8 @@ The action reads a few env variables:
   `action`.
 * `IGNORE_ERRORS` can ignore failing packages builds.
 * `INDEX` makes the action build the package index. Default is 0. Set to 1 to enable.
-* `KEY_BUILD` can be a private Signify/`usign` key to sign the packages feed.
+* `KEY_BUILD` can be a private Signify/`usign` key to sign the packages (ipk) feed.
+* `PRIVATE_KEY` can be a private key to sign the packages (apk) feed.
 * `NO_DEFAULT_FEEDS` disable adding the default SDK feeds
 * `NO_REFRESH_CHECK` disable check if patches need a refresh.
 * `NO_SHFMT_CHECK` disable check if init files are formated

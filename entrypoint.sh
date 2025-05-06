@@ -31,6 +31,11 @@ if [ -n "$KEY_BUILD" ]; then
 	CONFIG_SIGNED_PACKAGES="y"
 fi
 
+if [ -n "$PRIVATE_KEY" ]; then
+	echo "$PRIVATE_KEY" > private-key.pem
+	CONFIG_SIGNED_PACKAGES="y"
+fi
+
 if [ -z "$NO_DEFAULT_FEEDS" ]; then
 	sed \
 		-e 's,https://git.openwrt.org/feed/,https://github.com/openwrt/,' \
