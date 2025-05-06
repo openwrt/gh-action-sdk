@@ -40,6 +40,7 @@ runs:
           --env FEEDNAME \
           --env IGNORE_ERRORS \
           --env KEY_BUILD \
+          --env PRIVATE_KEY \
           --env NO_DEFAULT_FEEDS \
           --env NO_REFRESH_CHECK \
           --env NO_SHFMT_CHECK \
