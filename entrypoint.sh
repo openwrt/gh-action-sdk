@@ -187,7 +187,10 @@ fi
 
 if [ "$INDEX" = '1' ];then
 	group "make package/index"
-	make package/index
+	make \
+		CONFIG_SIGNED_PACKAGES="$CONFIG_SIGNED_PACKAGES" \
+		V=s \
+		package/index
 	endgroup
 fi
 
