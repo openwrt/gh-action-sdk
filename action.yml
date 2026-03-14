@@ -33,8 +33,29 @@ runs:
         cache-from: type=gha,scope=${{ env.CONTAINER }}-${{ env.ARCH }}
         load: true
 
-    - run: |
+    - if: always() && env.TARGET == ''
+      run: |
         docker run --rm \
+          --env BUILD_LOG \
+          --env EXTRA_FEEDS \
+          --env FEEDNAME \
+          --env IGNORE_ERRORS \
+          --env KEY_BUILD \
+          --env PRIVATE_KEY \
+          --env NO_DEFAULT_FEEDS \
+          --env NO_REFRESH_CHECK \
+          --env NO_SHFMT_CHECK \
+          --env PACKAGES \
+          --env INDEX \
+          --env V \
+          -v ${{ steps.inputs.outputs.artifacts_dir }}:/artifacts \
+          -v ${{ steps.inputs.outputs.feed_dir }}:/feed \
+          sdk
+      shell: bash
+    - if: always() && env.TARGET != ''
+      run: |
+        docker run --rm \
+          --env TARGET \
           --env BUILD_LOG \
           --env EXTRA_FEEDS \
           --env FEEDNAME \
