@@ -46,6 +46,14 @@ if [ -z "$NO_DEFAULT_FEEDS" ]; then
 		-e 's,https://git.openwrt.org/openwrt/,https://github.com/openwrt/,' \
 		-e 's,https://git.openwrt.org/project/,https://github.com/openwrt/,' \
 		feeds.conf.default > feeds.conf
+
+	# Replace complete feed URL when feed name matches (feedname|url^commit format)
+	for DEFAULT_FEED in $DEFAULT_FEEDS; do
+		feed_name=$(echo "$DEFAULT_FEED" | cut -d'|' -f1)
+		feed_url=$(echo "$DEFAULT_FEED" | cut -d'|' -f2)
+		[ -n "$feed_name" ] && [ -n "$feed_url" ] || continue
+		sed -i "s#^\(\([^[:space:]]\+\)[[:space:]]\+\)\(${feed_name}[[:space:]]\+\)\([^[:space:]]\+\)\$#\1\3${feed_url}#" feeds.conf
+	done
 fi
 
 echo "src-link $FEEDNAME /feed/" >> feeds.conf
