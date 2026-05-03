@@ -36,6 +36,7 @@ runs:
     - if: always() && env.TARGET == ''
       run: |
         docker run --rm \
+          --env BUILD \
           --env BUILD_LOG \
           --env EXTRA_FEEDS \
           --env FEEDNAME \
