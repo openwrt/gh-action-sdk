@@ -12,6 +12,7 @@ jobs:
       matrix:
         release:
           - master
+          - 25.12.3
           - 24.10.6
         arch:
           - aarch64_generic
