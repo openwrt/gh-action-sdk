@@ -12,7 +12,7 @@ jobs:
       matrix:
         release:
           - master
-          - 24.10.4
+          - 24.10.6
         arch:
           - aarch64_generic
           - arm_cortex-a15_neon-vfpv4
