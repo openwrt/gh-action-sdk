@@ -66,6 +66,7 @@ The action reads a few env variables:
 * `KEY_BUILD` can be a private Signify/`usign` key to sign the packages (ipk) feed.
 * `PRIVATE_KEY` can be a private key to sign the packages (apk) feed.
 * `NO_DEFAULT_FEEDS` disable adding the default SDK feeds
+* `DEFAULT_FEEDS` relpace default feeds if `NO_DEFAULT_FEEDS` is disabled, where `|` are replaced by white spaces.
 * `NO_REFRESH_CHECK` disable check if patches need a refresh.
 * `NO_SHFMT_CHECK` disable check if init files are formated
 * `PACKAGES` (Optional) specify the list of packages (space separated) to be built
