@@ -176,7 +176,8 @@ else
 
 	for PKG in $PACKAGES; do
 		if ! grep -m1 -qE "(^|/)$PKG$" enabled-package-subdirs.txt; then
-			echo "::warning file=$PKG::Skipping $PKG due to unsupported architecture"
+			echo "::error file=$PKG::Skipping $PKG due to unsupported architecture"
+			RET=1
 			continue
 		fi
 
