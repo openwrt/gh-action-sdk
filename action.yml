@@ -39,6 +39,7 @@ runs:
           --env BUILD_LOG \
           --env EXTRA_FEEDS \
           --env FEEDNAME \
+          --env FILE_HOST \
           --env IGNORE_ERRORS \
           --env KEY_BUILD \
           --env PRIVATE_KEY \
@@ -48,6 +49,7 @@ runs:
           --env NO_SHFMT_CHECK \
           --env PACKAGES \
           --env INDEX \
+          --env UPSTREAM_URL \
           --env V \
           -v ${{ steps.inputs.outputs.artifacts_dir }}:/artifacts \
           -v ${{ steps.inputs.outputs.feed_dir }}:/feed \
