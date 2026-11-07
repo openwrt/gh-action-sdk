@@ -20,9 +20,12 @@ endgroup() {
 trap 'endgroup' ERR
 
 group "bash setup.sh"
-# snapshot containers don't ship with the SDK to save bandwidth
-# run setup.sh to download and extract the SDK
-[ ! -f setup.sh ] || bash setup.sh
+# snapshot containers don't ship with the SDK to save bandwidth, while
+# release containers already ship with the SDK extracted. Only run setup.sh
+# when the SDK is not present (no Makefile in the working directory).
+if [ -f setup.sh ] && [ ! -f Makefile ]; then
+	bash setup.sh
+fi
 endgroup
 
 FEEDNAME="${FEEDNAME:-action}"
